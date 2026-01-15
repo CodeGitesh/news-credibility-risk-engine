@@ -1,0 +1,142 @@
+#ncre-overlay {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 300px;
+    padding: 16px;
+    z-index: 2147483647;
+    /* Max z-index */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #fff;
+
+    background: rgba(20, 20, 25, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+#ncre-overlay.ncre-visible {
+    opacity: 1;
+}
+
+.ncre-close-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 20px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px;
+}
+
+.ncre-close-btn:hover {
+    color: #fff;
+}
+
+.ncre-header {
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
+}
+
+.ncre-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 600;
+}
+
+.ncre-score-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.ncre-score {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.ncre-badge {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.ncre-low {
+    background: rgba(34, 197, 94, 0.2);
+    color: #4ade80;
+}
+
+.ncre-medium {
+    background: rgba(234, 179, 8, 0.2);
+    color: #facc15;
+}
+
+.ncre-high {
+    background: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+}
+
+.ncre-text {
+    font-size: 14px;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 12px 0;
+}
+
+.ncre-factors {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.ncre-factors li {
+    margin-bottom: 4px;
+    padding-left: 12px;
+    position: relative;
+}
+
+.ncre-factors li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.ncre-loading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.ncre-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

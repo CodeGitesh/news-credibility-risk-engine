@@ -1,9 +1,15 @@
 import CredibilityPrompts from './utils/prompts.js';
 
+// Trigger analysis when user clicks the extension icon
+chrome.action.onClicked.addListener((tab) => {
+    chrome.tabs.sendMessage(tab.id, { action: 'trigger_analysis' });
+});
+
+// Handle analysis request from content script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'analyze_text') {
         analyzeText(request.text).then(sendResponse);
-        return true; // Keep the message channel open for async response
+        return true;
     }
 });
 
@@ -15,7 +21,7 @@ async function analyzeText(text) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                model: 'llama3', // User can change this to their preferred model
+                model: 'llama3',
                 prompt: prompt,
                 stream: false,
                 format: 'json'
@@ -25,7 +31,8 @@ async function analyzeText(text) {
         if (!response.ok) throw new Error('Ollama connection failed');
 
         const data = await response.json();
-        return { success: true, data: JSON.parse(data.response) };
+        const parsed = JSON.parse(data.response);
+        return { success: true, data: parsed };
 
     } catch (error) {
         console.error('LLM Analysis Error:', error);
