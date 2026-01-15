@@ -11,7 +11,7 @@ A **Hackathon Project** that analyzes news articles in real-time using a **local
 This extension relies on a local AI model running on your machine.
 
 1. **Download Ollama**:
-   - Go to [ollama.com](https://ollama.com) and download the installer for your OS (Mac/Windows/Linux).
+   - Go to [ollama.com](https://ollama.com) and download the installer for your OS (Mac/Windows/Linux). Minimum version needed is 0.1.32.
 
 2. **Run Ollama with Connection Permissions**:
    - The extension needs permission to talk to the local server. Open your terminal and run:
