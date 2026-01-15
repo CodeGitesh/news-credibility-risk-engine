@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "News Credibility Risk Engine",
     "version": "0.1.0",
-    "description": "Analyzes news articles for misinformation risk using a local LLM.",
+    "description": "Assesses information risk, speculative framing, and decision-making risk using a local LLM.",
     "permissions": [
         "activeTab",
         "scripting"
