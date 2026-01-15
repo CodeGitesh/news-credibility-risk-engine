@@ -5,9 +5,10 @@
     const text = extractor.extract();
 
     if (text) {
-        // We will send this text to the LLM in the next step
-        console.log('Extracted text length:', text.length);
-        console.log('Preview:', text.substring(0, 100) + '...');
+        console.log('Sending text to LLM...');
+        chrome.runtime.sendMessage({ action: 'analyze_text', text: text }, (response) => {
+            console.log('Analysis Result:', response);
+        });
     } else {
         console.log('No article text found.');
     }
