@@ -89,6 +89,13 @@ This extension relies on a local AI model running on your machine.
 - **Backend/AI**: Ollama (Llama 3)
 - **Architecture**: Chrome Extension V3 (Service Workers)
 
+## Disclosure
+
+This project was developed specifically for the hackathon.
+It uses open-source tools (Ollama and Llama 3) as runtime dependencies.
+All application logic, prompts, and UI components were implemented during the build period.
+
+
 ---
 
 *Built for the GenAI Hackathon 2026.*
