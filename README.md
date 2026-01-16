@@ -81,12 +81,57 @@ This extension relies on a local AI model running on your machine.
 - **Prompt Engineering**: The model strictly ignores "truth" (which is subjective) and focuses on **Information Risk** (speculation, sourcing, decision-making risk).
 - **Privacy**: The API call stays on `localhost`. No external servers are pinged.
 
+### ⚠️ Risk Level Definitions (Ground Truth)
+
+| Risk Level | Definition & Criteria |
+|:---|:---|
+| **LOW_RISK** | **Factual Reporting**: Neutral tone, verifiable sources, official data (e.g., SEBI/RBI reports). No persuasive intent. |
+| **MEDIUM_RISK** | **Speculative/Opinionated**: Uses language like "might," "could," "rumoured." Lacks concrete evidence but isn't explicitly false. |
+| **HIGH_RISK** | **Manipulation/Scam**: Urgency ("Act Now"), scarcity ("Only 2 left"), unverified claims, or financial advice promising guaranteed returns. |
+
+---
+
+## 📊 Evaluation & Benchmarking
+
+To ensure technical rigor, we evaluate the system using a specific methodology rather than relying on qualitative "vibes."
+
+### Methodology
+1. **Dataset**: We created a labeled dataset of **100+ news articles** (`scripts/evaluation/dataset.csv`) focusing on:
+   - **Indian Financial News** (Stock market, Crypto, Banking)
+   - **General News** (Elections, Weather)
+   - **Scams/Clickbait** (Phishing, Ponzi schemes)
+2. **Deterministic Classification**: The LLM is used as a specific classifier with `temperature=0` to ensure reproducibility.
+3. **Metrics**: We measure **Accuracy** (overall correctness) and **High-Risk Precision** (minimizing false alarms for credible news).
+
+### How to Run Evaluation
+```bash
+# Requires Node.js and Ollama running
+node scripts/evaluation/evaluate.js
+```
+
+### Actual Benchmark Results (Llama 3 Local)
+| Metric | Value | Notes |
+|:---|:---|:---|
+| **Accuracy** | **71.1%** | Measured on 83 successful samples. |
+| **High Risk Precision** | **86.4%** | **Key Metric**: The system rarely mislabels safe news as "High Risk." |
+| **High Risk Recall** | **79.2%** | Successfully identifies ~4 out of 5 high-risk articles. |
+
+> *Note: ~20% of requests may timeout on lower-end hardware due to local inference load.*
+
+---
+
+## 🚧 Limitations
+
+1. **Linguistic Analysis Only**: The model analyzes *language patterns* (speculation, urgency), not *factual truth*. It cannot verify if a specific event actually happened, only if the reporting *sounds* risky.
+2. **Context Blindness**: Satire or complex sarcasm might be misclassified as High Risk.
+3. **Extraction Limits**: Use of heuristic text extraction means highly dynamic JavaScript-heavy sites might not parse correctly every time.
+
 ---
 
 ## 👨‍💻 Tech Stack
 
 - **Frontend**: Vanilla JavaScript, Glassmorphism CSS (No frameworks!)
-- **Backend/AI**: Ollama (Llama 3)
+- **Backend/AI**: Ollama (Llama 3) - **Deterministic Execution** (`temp=0`)
 - **Architecture**: Chrome Extension V3 (Service Workers)
 
 ## Disclosure
