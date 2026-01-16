@@ -3,6 +3,7 @@
 A **Hackathon Project** that analyzes news articles in real-time using a **local LLM** to assesses information risk, speculative framing, and decision-making risk.
 
 > **Privacy First**: No data leaves your computer. Everything is analyzed locally using Llama 3.
+The local setup prioritizes privacy and rapid iteration during the hackathon and represents a development-first deployment tier.
 
 ---
 
@@ -54,7 +55,9 @@ This extension relies on a local AI model running on your machine.
 3. **View Results**:
    - **Score (0-100)**: Lower is riskier.
    - **Risk Level**: Low, Medium, or High.
-   - **Risk Factors**: Specific issues like "Speculative language" or "Scarcity tactics".
+   - **Risk Factors**: Specific issues like "Speculative language" or "Scarcity tactics". Directly shows the words within the article that exhibit high-risk linguistic patterns (e.g., scarcity, urgency, or speculative hedging), providing instant explainability
+
+**⚠️ Critical**: If the extension says "Server not found," ensure you started Ollama with OLLAMA_ORIGINS="*"
 
 ---
 
@@ -145,7 +148,7 @@ the hackathon phase and used only for offline analysis.
 Instead of retraining the LLM, labeled data collected from manual annotation and
 user feedback can be used to train a lightweight supervised calibration model
 on top of LLM outputs. The LLM remains unchanged and acts as a feature extractor,
-while the supervised model improves classification consistency over time.
+while the supervised model improves classification consistency over time. We deliberately separate learning from inference and improve the system through controlled, offline calibration rather than retraining the LLM.
 
 ### 3. Scalable Inference Infrastructure (Optional) - To be done in deployment phase
 For the purposes of the hackathon and budget constraints, the system avoids any
@@ -157,6 +160,74 @@ aggregation and controlled updates at scale.
 The risk analysis pipeline can be extended to support regional languages using
 language-aware prompts or multilingual models, enabling broader accessibility
 across diverse news sources.
+
+
+---
+
+## 🏗 Production Roadmap: From Development to Scale
+
+The current prototype uses a local Ollama-based setup with Llama 3 to prioritize
+privacy, rapid experimentation, and zero infrastructure cost during the hackathon.
+This enables fast iteration on complex linguistic prompts without relying on
+external APIs or sending user data outside the device.
+
+However, this local setup is intentionally positioned as a **development and
+privacy-first tier**, not a requirement for mainstream adoption.
+
+### Addressing the Ollama Installation Requirement
+
+Installing Ollama is acceptable for a hackathon prototype and power users, but a
+production-ready system must offer a zero-install experience. To address this,
+the system is designed to transition to a hybrid inference architecture.
+
+### Hybrid Inference Architecture (Production Vision)
+
+**Tier 1: Client-Side Lightweight Analysis**  
+The browser extension performs fast, lightweight checks such as article extraction,
+keyword heuristics, and basic linguistic signals to ensure immediate responsiveness.
+
+Optionally, a small on-device language model (e.g., a ~100M parameter model such as
+TinyLlama running via WebAssembly) can be used for coarse pre-filtering. This allows
+the system to identify potentially risky content early and selectively escalate
+only suspicious cases for deeper analysis.
+
+**Tier 2: Server-Side LLM Inference**  
+When deeper reasoning is required, the extracted article text is securely sent to a
+managed backend where a centralized LLM (e.g., Llama 3 running via high-throughput
+engines such as vLLM or containerized Ollama) performs risk analysis.
+
+This architecture enables:
+- Zero-install user experience for end users
+- Low-latency inference through hardware acceleration
+- High concurrency using token batching
+- Controlled and consistent model updates
+
+### Latency, Privacy, and Enterprise Considerations
+
+Future iterations can leverage streaming inference, allowing risk indicators to
+appear progressively as the page loads instead of waiting for full completion.
+
+The system supports both local-only and cloud-assisted deployments. For enterprise
+or financial use cases, local inference remains a privacy-first option, while
+consumer deployments can leverage cloud inference for ease of use and scalability.
+
+
+---
+
+### Deployment and Cost Sustainability
+
+While the prototype is designed to operate locally to minimize cost during the
+hackathon phase, a production deployment requires a sustainable operating model.
+
+For high-impact domains such as financial news, trading platforms, and brokerage
+ecosystems, organizations (e.g., media houses or investment platforms) may choose
+to integrate the risk analysis engine as a value-added feature for premium users.
+This enables centralized inference, consistent risk signaling, and controlled
+operational costs.
+
+Such integrations help platforms proactively reduce exposure to misleading or
+manipulative content without positioning the system as a source of financial
+advice or factual authority.
 
 
 ---
