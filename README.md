@@ -128,6 +128,39 @@ node scripts/evaluation/evaluate.js
 
 ---
 
+## 🚀 Future Scope (Build Model Phase)
+
+The current system is intentionally scoped as a lightweight, local prototype to
+ensure zero infrastructure cost and fast experimentation during the hackathon.
+
+In a build model phase, the system can be extended in a controlled and incremental
+manner without changing the core architecture:
+
+### 1. Human-in-the-Loop Feedback
+A user feedback mechanism can be added to allow readers to flag incorrect or
+misleading risk classifications. This feedback will be stored locally during
+the hackathon phase and used only for offline analysis.
+
+### 2. Supervised Calibration Layer
+Instead of retraining the LLM, labeled data collected from manual annotation and
+user feedback can be used to train a lightweight supervised calibration model
+on top of LLM outputs. The LLM remains unchanged and acts as a feature extractor,
+while the supervised model improves classification consistency over time.
+
+### 3. Scalable Inference Infrastructure (Optional) - To be done in deployment phase
+For the purposes of the hackathon and budget constraints, the system avoids any
+cloud-based inference. In a future build phase, inference can be migrated to a
+managed cloud environment (e.g., AWS) only if required to support feedback
+aggregation and controlled updates at scale.
+
+### 4. Regional Language Support
+The risk analysis pipeline can be extended to support regional languages using
+language-aware prompts or multilingual models, enabling broader accessibility
+across diverse news sources.
+
+
+---
+
 ## 👨‍💻 Tech Stack
 
 - **Frontend**: Vanilla JavaScript, Glassmorphism CSS (No frameworks!)
